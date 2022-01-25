@@ -14,11 +14,17 @@ import tensorflow as tf
 import data_util
 import model
 
-tf.app.flags.DEFINE_string('dataset_path', r"E:\docker\Transfer-Learning\dataset\nir_shootout_MT.mat", '')
-tf.app.flags.DEFINE_string('checkpoint_path', './checkpoint_path/', '')
-tf.app.flags.DEFINE_integer('class_', 1, '')
-tf.app.flags.DEFINE_string('gpu_list', '0', '')
-FLAGS = tf.app.flags.FLAGS
+# tf.app.flags.DEFINE_string('dataset_path', r"E:\docker\Transfer-Learning\dataset\nir_shootout_MT.mat", '')
+# # 修改测试模型路径，gan是使用了迁移学习
+# tf.app.flags.DEFINE_string('checkpoint_path', './checkpoint_path/8gan/', '')
+# tf.app.flags.DEFINE_integer('class_', 1, '')
+# tf.app.flags.DEFINE_string('gpu_list', '0', '')
+# FLAGS = tf.app.flags.FLAGS
+
+dataset_path = r"E:\docker\Transfer-Learning\dataset\nir_shootout_MT.mat"
+checkpoint_path = './checkpoint_path/8gan/'
+class_ = 1
+gpu_list = "0"
 
 
 def mse(y_test, y_true):
@@ -60,19 +66,19 @@ def r2(y_test, y_true):
 
 def eval():
     import os
-    os.environ['CUDA_VISIBLE_DEVICES'] = FLAGS.gpu_list
+    os.environ['CUDA_VISIBLE_DEVICES'] = gpu_list
     with tf.get_default_graph().as_default():
         datas_p = tf.placeholder(tf.float32, shape=[None, 597, 1], name='input_images')
-        labels_p = tf.placeholder(tf.float32, shape=[None, FLAGS.class_], name='output_maps')
+        labels_p = tf.placeholder(tf.float32, shape=[None, class_], name='output_maps')
         dropout_placeholdr = tf.placeholder(tf.float32)
-        f_score,_,_ = model.model_1(datas_p, dropout_placeholdr, FLAGS.class_)
+        f_score,_,_ = model.model_1(datas_p, dropout_placeholdr, class_)
         saver = tf.train.Saver()
         with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
-            ckpt_state = tf.train.get_checkpoint_state(FLAGS.checkpoint_path)
-            model_path = os.path.join(FLAGS.checkpoint_path, os.path.basename(ckpt_state.model_checkpoint_path))
+            ckpt_state = tf.train.get_checkpoint_state(checkpoint_path)
+            model_path = os.path.join(checkpoint_path, os.path.basename(ckpt_state.model_checkpoint_path))
             print('Restore from {}'.format(model_path))
             saver.restore(sess, model_path)
-            datas_, data_eval,labels_ = data_util.data_load_eval(FLAGS.dataset_path)
+            datas_, data_eval, labels_ = data_util.data_load_eval(dataset_path)
             output_p = np.zeros([datas_.shape[0], 1])
             test_feed_dict = {
                 datas_p: datas_,
@@ -93,8 +99,10 @@ def eval():
             pred_val = sess.run(f_score, feed_dict=test_feed_dict)
             print("当前模型迁移测试mse:{}, rmse:{}, mae:{}, r2:{}".format(mse(pred_val, labels_), rmse(pred_val, labels_)
                                                                 , mae(pred_val, labels_), r2(pred_val, labels_)))
-
-
+            # print("当前模型迁移测试\t{}\t{}\t{}\t{}".format(mse(pred_val, labels_), rmse(pred_val, labels_)
+            #                                                     , mae(pred_val, labels_), r2(pred_val, labels_)))
+            #
+            #
 
 if __name__ == "__main__":
     eval()

@@ -1,0 +1,6 @@
+model_checkpoint_path: "973_loss_0.49212878942489624_model.ckpt"
+all_model_checkpoint_paths: "262_loss_0.6654253005981445_model.ckpt"
+all_model_checkpoint_paths: "300_loss_0.5655090808868408_model.ckpt"
+all_model_checkpoint_paths: "493_loss_0.5386554598808289_model.ckpt"
+all_model_checkpoint_paths: "868_loss_0.538270890712738_model.ckpt"
+all_model_checkpoint_paths: "973_loss_0.49212878942489624_model.ckpt"

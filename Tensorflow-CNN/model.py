@@ -69,9 +69,9 @@ def model_1(datas_placeholder, dropout_placeholdr, num_classes):
 
     # 将3维特征转换为1维向量
     flatten = tf.layers.flatten(pool2, name='reshape')
-    # 输出特征分类
-    with tf.name_scope('class') as scope:
-        score_cls = model_class(flatten)
+    # # 输出特征分类
+    # with tf.name_scope('class') as scope:
+    #     score_cls = model_class(flatten)
 
     # with tf.name_scope('conv3') as scope:
     #     # 添加一维
@@ -99,6 +99,7 @@ def model_1(datas_placeholder, dropout_placeholdr, num_classes):
     logits = tf.layers.dense(dropout_fc, num_classes, name='output')
 
     # return logits, flatten, score_cls
+    # return logits, conv0, tf.expand_dims(fc0, -1)
     return logits, pool1, pool2
 
 

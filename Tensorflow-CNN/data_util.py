@@ -33,8 +33,8 @@ def data_load(data_dir):
     # %%
     in_train = Xs.reshape(Xs.shape[0], img_cols, img_rows)
     on_train = Xm.reshape(Xm.shape[0], img_cols, img_rows)
-    # return in_train, on_train, ytrain
-    return on_train, in_train, ytrain
+    return in_train, on_train, ytrain
+    # return on_train, in_train, ytrain
 
 
 def data_load_eval(data_dir):
