@@ -16,7 +16,7 @@ import data_util
 import numpy as np
 import random
 
-tf.app.flags.DEFINE_integer('batch_size_per_gpu', 8, '')
+tf.app.flags.DEFINE_integer('batch_size_per_gpu', 32, '')
 tf.app.flags.DEFINE_float('learning_rate', 0.001, '')
 tf.app.flags.DEFINE_integer('max_epoch', 10000, '')
 tf.app.flags.DEFINE_integer('img_size', 597, '')
@@ -120,7 +120,7 @@ def main(random_i, back_gan):
 
 
 if __name__ == "__main__":
-    seed = 8
+    seed = 6
     # 固定化随机种子
     tf.set_random_seed(seed)
     np.random.seed(seed)

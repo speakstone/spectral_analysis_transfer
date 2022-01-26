@@ -18,11 +18,11 @@ import model
 # # 修改测试模型路径，gan是使用了迁移学习
 # tf.app.flags.DEFINE_string('checkpoint_path', './checkpoint_path/8gan/', '')
 # tf.app.flags.DEFINE_integer('class_', 1, '')
-# tf.app.flags.DEFINE_string('gpu_list', '0', '')
+# tf.app.flags.DEFINE_string('gpu_lis   t', '0', '')
 # FLAGS = tf.app.flags.FLAGS
 
 dataset_path = r"E:\docker\Transfer-Learning\dataset\nir_shootout_MT.mat"
-checkpoint_path = './checkpoint_path/8gan/'
+checkpoint_path = './checkpoint_path/6gan/'
 class_ = 1
 gpu_list = "0"
 
@@ -86,7 +86,7 @@ def eval():
                 dropout_placeholdr: 0
             }
             pred_val = sess.run(f_score, feed_dict=test_feed_dict)
-            print("当前模型测试mse:{}, rmse:{}, mae:{}, r2:{}".format(mse(pred_val, labels_), rmse(pred_val, labels_)
+            print("主机数据测试mse:{}, rmse:{}, mae:{}, r2:{}".format(mse(pred_val, labels_), rmse(pred_val, labels_)
                                                                 , mae(pred_val, labels_), r2(pred_val, labels_)))
 
 
@@ -97,7 +97,7 @@ def eval():
                 dropout_placeholdr: 0
             }
             pred_val = sess.run(f_score, feed_dict=test_feed_dict)
-            print("当前模型迁移测试mse:{}, rmse:{}, mae:{}, r2:{}".format(mse(pred_val, labels_), rmse(pred_val, labels_)
+            print("从机数据测试mse:{}, rmse:{}, mae:{}, r2:{}".format(mse(pred_val, labels_), rmse(pred_val, labels_)
                                                                 , mae(pred_val, labels_), r2(pred_val, labels_)))
             # print("当前模型迁移测试\t{}\t{}\t{}\t{}".format(mse(pred_val, labels_), rmse(pred_val, labels_)
             #                                                     , mae(pred_val, labels_), r2(pred_val, labels_)))
